@@ -1,0 +1,16 @@
+{
+  "name": "sockstat",
+  "version": "1.0.0",
+  "description": "A package that parses the /proc/net/sockstat file for socket connectivity statistics.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eladnava/sockstat.git"
+  },
+  "author": "Elad Nava <eladnava@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/eladnava/sockstat/issues"
+  },
+  "homepage": "https://github.com/eladnava/sockstat#readme"
+}
