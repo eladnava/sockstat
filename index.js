@@ -1,17 +1,13 @@
-const exec = require('child_process').exec;
+const fs = require('fs');
 
 exports.get = function () {
     // Return a promise
     return new Promise(function (resolve, reject) {
         // Run the sockstat terminal command
-        exec('cat /proc/net/sockstat', function (error, stdout, stderr) {
+        fs.readFile('/proc/net/sockstat', 'utf8', function (error, data) {
             // Sockstat command failed?
             if (error)
                 return reject(new Error('Sockstat failed: ' + error));
-
-            // Sockstat command returned an error?
-            if (stderr)
-                return reject(new Error('Sockstat error: ' + stderr));
 
             // Define RegEx pattern to extract stats from the sockstat command output (is there a better way to do this?)
             const pattern = /sockets: used ([0-9]+) TCP: inuse ([0-9]+) orphan ([0-9]+) tw ([0-9]+) alloc ([0-9]+) mem ([0-9]+) UDP: inuse ([0-9]+) mem ([0-9]+) UDPLITE: inuse ([0-9]+) RAW: inuse ([0-9]+) FRAG: inuse ([0-9]+) memory ([0-9]+)/;
@@ -31,7 +27,7 @@ exports.get = function () {
                 rawInuse,
                 fragInuse,
                 fragMem
-            ] = pattern.exec(stdout.replace(/\n/g, ' ')) || [];
+            ] = pattern.exec(data.replace(/\n/g, ' ')) || [];
 
             // Parse failed?
             if (!match)
